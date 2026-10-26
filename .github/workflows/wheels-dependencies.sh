@@ -88,6 +88,13 @@ if [[ -z "$IS_MACOS" ]]; then
     source wheels/multibuild/manylinux_utils.sh
 fi
 
+# fetch_unpack applies any matching patch from $PATCH_DIR, and echoes the
+# unpacked directory, which callers such as build_openjpeg capture and cd into.
+# Send the output of patch to stderr, so it doesn't end up in that directory.
+function patch {
+    command patch "$@" >&2
+}
+
 ARCHIVE_SDIR=pillow-depends-main
 
 VERSIONS_FILE="$PROJECTDIR/.github/dependencies.json"
